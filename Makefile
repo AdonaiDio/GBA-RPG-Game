@@ -29,13 +29,13 @@ TARGET      :=  $(notdir $(CURDIR))
 BUILD       :=  build
 LIBBUTANO   :=  C:/Butano/butano
 PYTHON      :=  python
-SOURCES     :=  src
-INCLUDES    :=  include
+SOURCES     :=  src src/FSM src/FSM/Player
+INCLUDES    :=  include src
 DATA        :=
 GRAPHICS    :=  graphics
 AUDIO       :=  audio
 DMGAUDIO    :=  dmg_audio
-ROMTITLE    :=  #{RomTitle}
+ROMTITLE    :=  Tilemap_Butano
 ROMCODE     :=  SBTP
 USERFLAGS   :=  
 USERASFLAGS :=  
@@ -56,3 +56,24 @@ endif
 # Include main makefile:
 #---------------------------------------------------------------------------------------------------------------------
 include $(LIBBUTANOABS)/butano.mak
+
+# Turn both compiler and linker vebosity to the maximum
+# CFLAGS += -v -Wl,-v 
+# CXXFLAGS += -v -Wl,-v 
+
+CFLAGS += -I$(BUTANO) -I$(realpath $(CURDIR))
+CXXFLAGS += -I$(BUTANO) -I$(realpath $(CURDIR))
+
+# Mostra e salva informações do linker map
+CFLAGS += -Wl,--print-memory-usage -Wl,-Map=debug/
+CXXFLAGS += -Wl,--print-memory-usage -Wl,-Map=debug/
+
+CFLAGS += -g -gdwarf-2
+CXXFLAGS += -g -gdwarf-2
+
+
+run: $(TARGET).elf $(TARGET).gba all
+	echo "Compilation succesfull."
+	sleep 2
+	C:/DevkitPRO/DevkitARM/arm-none-eabi/bin/objdump.exe -dwrCGS $(TARGET).elf > debug/code.s &
+	E:/Projetos/Jogos/GBA_dev/mGBA/mGBA.exe $(TARGET).gba

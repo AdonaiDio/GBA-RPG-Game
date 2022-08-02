@@ -33,3 +33,9 @@
 
 # Build
 /[Bb]uild/
+
+# Others
+anotaçoes.txt
+GBA-RPG-Game.elf
+GBA-RPG-Game.gba
+GBA-RPG-Game.sav
