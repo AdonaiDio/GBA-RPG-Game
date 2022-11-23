@@ -21,4 +21,5 @@ void Scene::Reset() {
     player.nextPos_y = player.y;
     player.spritePos_x = player.sprite_x(player.x);
     player.spritePos_y = player.sprite_y(player.y);
+    player.Update(Scene_ptr->camera);
 }

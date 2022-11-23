@@ -34,8 +34,14 @@
 # Build
 /[Bb]uild/
 
+# Backup
+/[Bb]ackup/
+
 # Others
 anotaçoes.txt
 GBA-RPG-Game.elf
 GBA-RPG-Game.gba
 GBA-RPG-Game.sav
+.vs/VSWorkspaceState.json
+.vs/GBA-RPG-Game/v16/.suo
+.vs/slnx.sqlite
