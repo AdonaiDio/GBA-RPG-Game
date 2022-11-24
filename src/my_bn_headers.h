@@ -3,10 +3,11 @@
 
 #include <bn_log.h>
 #include <bn_core.h>
-#include <hw/include/bn_hw_core.h>
+#include "D:/Adonai/Programas/Butano/butano/hw/include/bn_hw_core.h"
 #include <bn_fixed.h>
 #include <bn_keypad.h>
 #include <bn_display.h>
+#include <bn_rect.h>
 
 #include <bn_camera_ptr.h>
 

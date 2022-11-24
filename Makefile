@@ -27,7 +27,7 @@
 #---------------------------------------------------------------------------------------------------------------------
 TARGET      :=  $(notdir $(CURDIR))
 BUILD       :=  build
-LIBBUTANO   :=  C:/Butano/butano
+LIBBUTANO   :=  D:/Adonai/Programas/Butano/butano
 PYTHON      :=  python
 SOURCES     :=  src src/FSM src/FSM/Player
 INCLUDES    :=  include src
@@ -76,4 +76,4 @@ run: $(TARGET).elf $(TARGET).gba all
 	echo "Compilation succesfull."
 	sleep 2
 	C:/DevkitPRO/DevkitARM/arm-none-eabi/bin/objdump.exe -dwrCGS $(TARGET).elf > debug/code.s &
-	E:/Projetos/Jogos/GBA_dev/mGBA/mGBA.exe $(TARGET).gba
+	D:/Adonai/Miscelaneous/Projetos/Jogos/GBA_dev/Emulador/mGBA/mGBA.exe $(TARGET).gba

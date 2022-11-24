@@ -4,13 +4,6 @@
 
 #include "FSM/FSM_Player.h"
 
-// #include "bn_sprite_items_grid_cell.h"
-
-//teste
-// bn::sprite_ptr teste_sprite = bn::sprite_items::grid_cell.create_sprite(sprite_x(x), sprite_y(y));
-//
-
-
 
 // correção em posição global
 bn::fixed Player::sprite_x(int cursor_x) {
@@ -21,28 +14,28 @@ bn::fixed Player::sprite_y(int cursor_y) {
     return (cursor_y * Scene::grid_cell_height) - ((Scene::grid_max_rows / 2) * Scene::grid_cell_height) - (Scene::grid_cell_height / 2);
 }
 
-
-Player::Player(int pos_x, int pos_y) : 
-    x(pos_x), 
-    y(pos_y), 
+Player::Player(int pos_x, int pos_y, int collider_width, int collider_height) :
+    x(pos_x),
+    y(pos_y),
     nextPos_x(x),
     nextPos_y(y),
     spritePos_x(sprite_x(x)),
     spritePos_y(sprite_y(y)),
+    collider(pos_x, pos_y, collider_width, collider_height),
+    onCollision(false),
     animFrameWait(4),
     current_direction(Player::Direction::down),
     last_direction(Player::Direction::down),
     player_sprite(player_sprite_ROM.create_sprite(sprite_x(x), sprite_y(y))),
     player_sprite_animation(bn::create_sprite_animate_action_forever(
-        player_sprite, animFrameWait, bn::sprite_items::brandon_walk_run.tiles_item(), 
-        Graphics::Character_index::idle_down, Graphics::Character_index::idle_down, 
+        player_sprite, animFrameWait, bn::sprite_items::brandon_walk_run.tiles_item(),
+        Graphics::Character_index::idle_down, Graphics::Character_index::idle_down,
         Graphics::Character_index::idle_down, Graphics::Character_index::idle_down)),
     fsm_player(new FSM::FSM_Player_Idle(*this, Direction::up))
 {
     MoveTo(pos_x, pos_y);
 }
-
-Player::~Player(){}
+Player::~Player() {}
 
 
 void Player::MoveTo(int target_x, int target_y){
@@ -53,6 +46,9 @@ void Player::MoveTo(int target_x, int target_y){
 
 int aceleration = 1;
 
+//void Player::CheckCollision(bn::rect& collider) {
+//    
+//}
 
 void Player::TranslateSprite(bn::camera_ptr& camera){
     //grid 16x16
@@ -79,19 +75,27 @@ void Player::TranslateSprite(bn::camera_ptr& camera){
 
     // BN_LOG(__FILE__, " ", __func__, " ", __LINE__, " ", "aceleration: ", aceleration);
 
-    if(spritePos_x < sprite_x(nextPos_x)){
-        camera.set_x(camera.x() + aceleration);
-        spritePos_x += aceleration;
+    if(spritePos_x < sprite_x(nextPos_x)){ //direita
+        //se onColision faça:
+        //scene.isOnCollision();
+        if (onCollision) {
+            nextPos_x = x;
+        }
+        else {
+            //se não entrou em outro collider:
+            camera.set_x(camera.x() + aceleration);
+            spritePos_x += aceleration;
+        }
     }
-    else if(spritePos_x > sprite_x(nextPos_x)){
+    else if(spritePos_x > sprite_x(nextPos_x)){ //esquerda
         camera.set_x(camera.x() - aceleration);
         spritePos_x -= aceleration;
     }
-    else if(spritePos_y < sprite_y(nextPos_y)){
+    else if(spritePos_y < sprite_y(nextPos_y)){ //baixo
         camera.set_y(camera.y() + aceleration);
         spritePos_y += aceleration;
     }
-    else if(spritePos_y > sprite_y(nextPos_y)){
+    else if(spritePos_y > sprite_y(nextPos_y)){ //cima
         camera.set_y(camera.y() - aceleration);
         spritePos_y -= aceleration;
     }
@@ -102,6 +106,7 @@ void Player::TranslateSprite(bn::camera_ptr& camera){
         y = nextPos_y;
     }
     player_sprite.set_position(spritePos_x, spritePos_y);
+    onCollision = false;
 
 }
 
@@ -109,6 +114,5 @@ void Player::Update(bn::camera_ptr& camera) {
     player_sprite_animation.update();
     TranslateSprite(camera);
     fsm_player->Update(fsm_player);
-    // teste_sprite.set_position(sprite_x(nextPos_x), sprite_y(nextPos_y) + 8);
 }
 

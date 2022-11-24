@@ -2,12 +2,14 @@
 #include "my_bn_headers.h"
 #include "Graphics.h"
 
+
 #include "bn_sprite_items_brandon_walk_run.h"
 
 // Forward declaration, see: https://stackoverflow.com/questions/553682/when-can-i-use-a-forward-declaration
 namespace FSM {
     class FSM_Player_State;
 }
+
 
 class Player
 {
@@ -19,6 +21,9 @@ public:
     int nextPos_y;
     bn::fixed spritePos_x; //valor em pixels de x
     bn::fixed spritePos_y;
+    bn::rect collider;
+    //teste
+    bool onCollision;
 
     int animFrameWait;
 
@@ -40,10 +45,9 @@ public:
     bn::fixed sprite_x(int cursor_x);
     bn::fixed sprite_y(int cursor_y);
     FSM::FSM_Player_State* fsm_player;
-
     
 
-    Player(int pos_x, int pos_y);
+    Player(int pos_x, int pos_y, int collider_width, int collider_height);
     ~Player();
 
     void MoveTo(int target_x, int target_y);
