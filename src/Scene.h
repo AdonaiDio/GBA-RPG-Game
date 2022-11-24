@@ -29,7 +29,7 @@ public:
     Scene();
     ~Scene();
 
-    //void isOnCollision();
+    void isOnCollision();
     void Reset();
 
 private:

@@ -16,13 +16,13 @@ Scene::Scene() : player((Scene::grid_max_columns / 2), (Scene::grid_max_rows / 2
 
 Scene::~Scene() = default;
 
-//void Scene::isOnCollision() {
-//    //BN_LOG(player.collider.x() ," ", object.collider.x());
-//    if (player.collider.intersects(object.collider)) {
-//        player.onCollision = true;
-//        BN_LOG("Intersects! ON");
-//    }
-//}
+void Scene::isOnCollision() {
+    //BN_LOG(player.collider.x() ," ", object.collider.x());
+    if (player.collider.intersects(object.collider)) {
+        player.onCollision = true;
+        BN_LOG("Intersects! ON");
+    }
+}
 
 void Scene::Reset() {
     player.MoveTo(grid_max_columns / 2, grid_max_rows / 2);

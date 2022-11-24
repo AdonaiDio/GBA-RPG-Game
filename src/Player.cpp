@@ -77,7 +77,9 @@ void Player::TranslateSprite(bn::camera_ptr& camera){
 
     if(spritePos_x < sprite_x(nextPos_x)){ //direita
         //se onColision faça:
-        //scene.isOnCollision();
+        Scene sc;
+        sc.isOnCollision();
+        BN_LOG("OnCollision is: ", onCollision);
         if (onCollision) {
             nextPos_x = x;
         }
