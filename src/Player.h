@@ -2,6 +2,7 @@
 #include "my_bn_headers.h"
 #include "Graphics.h"
 
+#include "Scene.h"
 
 #include "bn_sprite_items_brandon_walk_run.h"
 
@@ -10,6 +11,7 @@ namespace FSM {
     class FSM_Player_State;
 }
 
+class Scene;
 
 class Player
 {
@@ -51,9 +53,9 @@ public:
     ~Player();
 
     void MoveTo(int target_x, int target_y);
-    void TranslateSprite(bn::camera_ptr& camera);
+    void TranslateSprite(bn::camera_ptr& camera, Scene* scene);
     void MoveControler();
-    void Update(bn::camera_ptr& camera);
+    void Update(bn::camera_ptr& camera, Scene* scene);
     
 private:
  

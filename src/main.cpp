@@ -29,7 +29,7 @@ int main()
         if(bn::keypad::start_pressed()) {
             Scene_ptr->Reset();
         }
-        Scene_ptr->player.Update(Scene_ptr->camera);
+        Scene_ptr->player->Update(Scene_ptr->camera, Scene_ptr.get());
 
         bn::core::update();
         bn::hw::core::wait_for_vblank();

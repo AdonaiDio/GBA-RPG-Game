@@ -8,8 +8,7 @@
 #include "bn_sprite_items_grid_cell.h"
 #include "bn_regular_bg_items_pokemon_map_static.h"
 
-
-//struct Player;
+class Player;
 
 class Scene
 {
@@ -20,7 +19,7 @@ public:
     static constexpr int grid_cell_width = 16;
     static constexpr int grid_cell_height = 16;
 
-    Player player;
+    Player* player;
     Object object;
 
     bn::regular_bg_ptr pkm_bg;

@@ -1,6 +1,5 @@
 
 #include "Player.h"
-#include "Scene.h"
 
 #include "FSM/FSM_Player.h"
 
@@ -21,7 +20,7 @@ Player::Player(int pos_x, int pos_y, int collider_width, int collider_height) :
     nextPos_y(y),
     spritePos_x(sprite_x(x)),
     spritePos_y(sprite_y(y)),
-    collider(pos_x, pos_y, collider_width, collider_height),
+    collider(spritePos_x.integer(), spritePos_y.integer(), collider_width, collider_height),
     onCollision(false),
     animFrameWait(4),
     current_direction(Player::Direction::down),
@@ -50,7 +49,7 @@ int aceleration = 1;
 //    
 //}
 
-void Player::TranslateSprite(bn::camera_ptr& camera){
+void Player::TranslateSprite(bn::camera_ptr& camera, Scene* scene){
     //grid 16x16
     if (fsm_player->state_type == FSM::FSM_PlayerType::Run){
         aceleration = 4;
@@ -77,16 +76,17 @@ void Player::TranslateSprite(bn::camera_ptr& camera){
 
     if(spritePos_x < sprite_x(nextPos_x)){ //direita
         //se onColision faça:
-        Scene sc;
-        sc.isOnCollision();
+        scene->isOnCollision();
         BN_LOG("OnCollision is: ", onCollision);
         if (onCollision) {
             nextPos_x = x;
+            collider.set_x(sprite_x(x).integer());
         }
         else {
             //se não entrou em outro collider:
             camera.set_x(camera.x() + aceleration);
             spritePos_x += aceleration;
+            collider.set_x(spritePos_x.integer());
         }
     }
     else if(spritePos_x > sprite_x(nextPos_x)){ //esquerda
@@ -112,9 +112,9 @@ void Player::TranslateSprite(bn::camera_ptr& camera){
 
 }
 
-void Player::Update(bn::camera_ptr& camera) {
+void Player::Update(bn::camera_ptr& camera, Scene* scene) {
     player_sprite_animation.update();
-    TranslateSprite(camera);
+    TranslateSprite(camera, scene);
     fsm_player->Update(fsm_player);
 }
 
