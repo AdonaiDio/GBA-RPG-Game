@@ -47,15 +47,16 @@ public:
     bn::fixed sprite_x(int cursor_x);
     bn::fixed sprite_y(int cursor_y);
     FSM::FSM_Player_State* fsm_player;
+    Scene* current_scene;
     
 
-    Player(int pos_x, int pos_y, int collider_width, int collider_height);
+    Player(int pos_x, int pos_y, int collider_width, int collider_height, Scene* this_scene);
     ~Player();
 
     void MoveTo(int target_x, int target_y);
-    void TranslateSprite(bn::camera_ptr& camera, Scene* scene);
+    void TranslateSprite(bn::camera_ptr& camera);
     void MoveControler();
-    void Update(bn::camera_ptr& camera, Scene* scene);
+    void Update(bn::camera_ptr& camera);
     
 private:
  

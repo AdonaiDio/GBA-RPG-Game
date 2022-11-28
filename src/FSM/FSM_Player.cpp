@@ -18,7 +18,7 @@ void FSM_Player_State::SwapToState(FSM_Player_State_ptr& current_state, FSM_Play
 }
 
 MaybeDirection FSM_Player_State::direction_pressed(){
-    if(bn::keypad::left_held() || bn::keypad::left_pressed())
+    if (bn::keypad::left_held() || bn::keypad::left_pressed())
         return bn::make_optional<Player::Direction>(Player::Direction::left);
 
     if(bn::keypad::right_held() || bn::keypad::right_pressed())

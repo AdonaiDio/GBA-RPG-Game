@@ -13,7 +13,7 @@ bn::fixed Player::sprite_y(int cursor_y) {
     return (cursor_y * Scene::grid_cell_height) - ((Scene::grid_max_rows / 2) * Scene::grid_cell_height) - (Scene::grid_cell_height / 2);
 }
 
-Player::Player(int pos_x, int pos_y, int collider_width, int collider_height) :
+Player::Player(int pos_x, int pos_y, int collider_width, int collider_height, Scene* this_scene) :
     x(pos_x),
     y(pos_y),
     nextPos_x(x),
@@ -30,7 +30,8 @@ Player::Player(int pos_x, int pos_y, int collider_width, int collider_height) :
         player_sprite, animFrameWait, bn::sprite_items::brandon_walk_run.tiles_item(),
         Graphics::Character_index::idle_down, Graphics::Character_index::idle_down,
         Graphics::Character_index::idle_down, Graphics::Character_index::idle_down)),
-    fsm_player(new FSM::FSM_Player_Idle(*this, Direction::up))
+    fsm_player(new FSM::FSM_Player_Idle(*this, Direction::down)),
+    current_scene(this_scene)
 {
     MoveTo(pos_x, pos_y);
 }
@@ -49,7 +50,7 @@ int aceleration = 1;
 //    
 //}
 
-void Player::TranslateSprite(bn::camera_ptr& camera, Scene* scene){
+void Player::TranslateSprite(bn::camera_ptr& camera){
     //grid 16x16
     if (fsm_player->state_type == FSM::FSM_PlayerType::Run){
         aceleration = 4;
@@ -74,47 +75,76 @@ void Player::TranslateSprite(bn::camera_ptr& camera, Scene* scene){
 
     // BN_LOG(__FILE__, " ", __func__, " ", __LINE__, " ", "aceleration: ", aceleration);
 
-    if(spritePos_x < sprite_x(nextPos_x)){ //direita
-        //se onColision faça:
-        scene->isOnCollision();
-        BN_LOG("OnCollision is: ", onCollision);
+    if (spritePos_x < sprite_x(nextPos_x) ||
+        spritePos_x > sprite_x(nextPos_x) ||
+        spritePos_y < sprite_y(nextPos_y) ||
+        spritePos_y > sprite_y(nextPos_y)) {
+        //current_scene->willCollide();
+        //BN_LOG("OnCollision is: ", onCollision);
         if (onCollision) {
             nextPos_x = x;
-            collider.set_x(sprite_x(x).integer());
+            nextPos_y = y;
+            spritePos_x = sprite_x(x);
+            spritePos_y = sprite_y(y);
+            camera.set_position(spritePos_x, spritePos_y);
+            collider.set_position(sprite_x(x).integer(), sprite_y(y).integer()+ (Scene::grid_cell_height / 2));
         }
         else {
-            //se não entrou em outro collider:
-            camera.set_x(camera.x() + aceleration);
-            spritePos_x += aceleration;
-            collider.set_x(spritePos_x.integer());
+        
+            if(spritePos_x < sprite_x(nextPos_x)){ //direita
+                camera.set_x(camera.x() + aceleration);
+                spritePos_x += aceleration;
+            }
+            else if(spritePos_x > sprite_x(nextPos_x)){ //esquerda
+                camera.set_x(camera.x() - aceleration);
+                spritePos_x -= aceleration;
+            }
+            else if(spritePos_y < sprite_y(nextPos_y)){ //baixo
+                camera.set_y(camera.y() + aceleration);
+                spritePos_y += aceleration;
+            }
+            else if(spritePos_y > sprite_y(nextPos_y)){ //cima
+                camera.set_y(camera.y() - aceleration);
+                spritePos_y -= aceleration;
+            }
+            if(spritePos_x == sprite_x(nextPos_x)){ //se chegou no destino, quebra o loop de animação e movimento do sprite
+                x = nextPos_x;
+            }
+            if(spritePos_y == sprite_y(nextPos_y)){ //aqui também.
+                y = nextPos_y;
+            }
+            //////////////////
+            switch (current_direction) {
+            case Direction::up:
+                BN_LOG("CurDir : up");
+
+                break;
+            case Direction::down:
+                BN_LOG("CurDir : down" );
+
+                break;
+            case Direction::left:
+                BN_LOG("CurDir : left" );
+
+                break;
+            default:
+            case Direction::right:
+                BN_LOG("CurDir : right" );
+
+                break;
+            }
+            /////////////////////
         }
     }
-    else if(spritePos_x > sprite_x(nextPos_x)){ //esquerda
-        camera.set_x(camera.x() - aceleration);
-        spritePos_x -= aceleration;
-    }
-    else if(spritePos_y < sprite_y(nextPos_y)){ //baixo
-        camera.set_y(camera.y() + aceleration);
-        spritePos_y += aceleration;
-    }
-    else if(spritePos_y > sprite_y(nextPos_y)){ //cima
-        camera.set_y(camera.y() - aceleration);
-        spritePos_y -= aceleration;
-    }
-    if(spritePos_x == sprite_x(nextPos_x)){
-        x = nextPos_x;
-    }
-    if(spritePos_y == sprite_y(nextPos_y)){
-        y = nextPos_y;
-    }
+    collider.set_position(int_spritePos_x, int_spritePos_y + (Scene::grid_cell_height / 2));
     player_sprite.set_position(spritePos_x, spritePos_y);
     onCollision = false;
 
 }
 
-void Player::Update(bn::camera_ptr& camera, Scene* scene) {
+void Player::Update(bn::camera_ptr& camera) {
     player_sprite_animation.update();
-    TranslateSprite(camera, scene);
+    TranslateSprite(camera);
     fsm_player->Update(fsm_player);
 }
 
