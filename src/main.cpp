@@ -7,8 +7,6 @@
 
 #include "Scene.h"
 
-#include "bn_music_items.h"
-#include "bn_sound_items.h"
 
 //namespace Assets{
 //}

@@ -6,7 +6,8 @@
 #include "Object.h"
 
 #include "bn_sprite_items_grid_cell.h"
-#include "bn_regular_bg_items_pokemon_map_static.h"
+//#include "bn_regular_bg_items_pokemon_map_static.h"
+#include "bn_regular_bg_tiles_items_pkm_tileset.h"
 
 class Player;
 
@@ -22,7 +23,8 @@ public:
     Player* player;
     Object object;
 
-    bn::regular_bg_ptr pkm_bg;
+    //bn::regular_bg_ptr pkm_bg;
+    bn::regular_bg_tiles_ptr pkm_bg_tiles;
     bn::camera_ptr camera;
 
     Scene();
