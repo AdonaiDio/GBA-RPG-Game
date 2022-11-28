@@ -7,6 +7,9 @@
 
 #include "Scene.h"
 
+#include "bn_music_items.h"
+#include "bn_sound_items.h"
+
 //namespace Assets{
 //}
 
@@ -23,6 +26,7 @@ int main()
     bn::unique_ptr<Scene> Scene_ptr(new Scene());
 
 
+    bn::music_items::speed_eaters_2.play(0.2);
 
     while(true)
     {
