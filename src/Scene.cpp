@@ -3,7 +3,9 @@
 Scene::Scene() : player(new Player((Scene::grid_max_columns / 2), (Scene::grid_max_rows / 2), 16, 16, this)),
                 object((Scene::grid_max_columns / 2) + 1, (Scene::grid_max_rows / 2), 16, 16),
                 camera(bn::camera_ptr::create(0, 0)),
-                pkm_village(bn::regular_bg_items::pkm_village.create_bg((Scene::grid_cell_width / 2), (Scene::grid_cell_height / 2)))
+                pkm_village1(bn::regular_bg_items::pkm_village1.create_bg((Scene::grid_cell_width / 2), (Scene::grid_cell_height / 2))),
+                pkm_village2(bn::regular_bg_items::pkm_village2.create_bg((Scene::grid_cell_width / 2), (Scene::grid_cell_height / 2)))
+                //pkm_village(bn::regular_bg_items::pkm_village.create_bg((Scene::grid_cell_width / 2), (Scene::grid_cell_height / 2)))
                 //pkm_bg(bn::regular_bg_items::pokemon_map_static.create_bg((Scene::grid_cell_width / 2), (Scene::grid_cell_height / 2)))
                 //pkm_bg_tiles(bn::regular_bg_tiles_items::pkm_tileset.create_tiles())
    
@@ -14,7 +16,10 @@ Scene::Scene() : player(new Player((Scene::grid_max_columns / 2), (Scene::grid_m
     player->player_sprite.set_camera(camera);
     object.object_sprite.set_camera(camera);
 
-    pkm_village.set_camera(camera);
+    //pkm_village.set_camera(camera);
+    pkm_village1.set_camera(camera);
+    pkm_village2.set_camera(camera);
+    pkm_village2.set_priority(2);
 
 }
 

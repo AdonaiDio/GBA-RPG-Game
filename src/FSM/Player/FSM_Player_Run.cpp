@@ -9,33 +9,52 @@ FSM_Player_Run::FSM_Player_Run(Player& P, Player::Direction D)
     FSM_PlayerType old_state_type = state_type;    
     state_type = FSM_PlayerType::Run;
     player.current_direction = D;
-    // Actually finish entering this state
-    switch (direction) {
-    case Player::Direction::up:
-        player.player_sprite.set_horizontal_flip(false);
-        player.nextPos_y = player.y - 1;
-        // BN_LOG(__FILE__, " ", __func__, " ", __LINE__, " ", "up");
+    // Checks if we can really enter this state
+    player.current_scene->willCollide();
 
-        break;
-    case Player::Direction::down:
-        player.player_sprite.set_horizontal_flip(false);
-        player.nextPos_y = player.y + 1;
-        // BN_LOG(__FILE__, " ", __func__, " ", __LINE__, " ", "down");
+    if (player.onCollision) {  // use a condition here //////////////////////////////////////////////////////
+        // Oh no, we can't actually use this state right now!
+        is_valid = false;
+        return;
+    }
 
-        break;
-    case Player::Direction::left:
-        player.player_sprite.set_horizontal_flip(false);
-        player.nextPos_x = player.x - 1;
-        // BN_LOG(__FILE__, " ", __func__, " ", __LINE__, " ", "left");
+    if (is_valid) {
+        // Actually finish entering this state
+        switch (direction) {
+        case Player::Direction::up:
+            player.player_sprite.set_horizontal_flip(false);
+            //if (!player.onCollision) 
+                player.nextPos_y = player.y - 1;
+            
+            // BN_LOG(__FILE__, " ", __func__, " ", __LINE__, " ", "up");
 
-        break;
-    default:
-    case Player::Direction::right:
-        player.player_sprite.set_horizontal_flip(true);
-        player.nextPos_x = player.x + 1;
-        // BN_LOG(__FILE__, " ", __func__, " ", __LINE__, " ", "right");
+            break;
+        case Player::Direction::down:
+            player.player_sprite.set_horizontal_flip(false);
+            //if (!player.onCollision) 
+                player.nextPos_y = player.y + 1;
+            
+                // BN_LOG(__FILE__, " ", __func__, " ", __LINE__, " ", "down");
 
-        break;
+                break;
+        case Player::Direction::left:
+            player.player_sprite.set_horizontal_flip(false);
+            //if (!player.onCollision) 
+                player.nextPos_x = player.x - 1;
+
+                // BN_LOG(__FILE__, " ", __func__, " ", __LINE__, " ", "left");
+
+                break;
+        default:
+        case Player::Direction::right:
+            player.player_sprite.set_horizontal_flip(true);
+            //if (!player.onCollision) 
+                player.nextPos_x = player.x + 1;
+
+            // BN_LOG(__FILE__, " ", __func__, " ", __LINE__, " ", "right");
+
+            break;
+        }
     }
     
     if(player.last_direction != direction || old_state_type != state_type){

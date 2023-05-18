@@ -9,6 +9,8 @@
 //#include "bn_regular_bg_items_pokemon_map_static.h"
 //#include "bn_regular_bg_tiles_items_pkm_tileset.h"
 #include "bn_regular_bg_items_pkm_village.h"
+#include "bn_regular_bg_items_pkm_village1.h"
+#include "bn_regular_bg_items_pkm_village2.h"
 
 
 class Player;
@@ -29,7 +31,9 @@ public:
     bn::camera_ptr camera;
     //bn::regular_bg_ptr pkm_bg;
     //bn::regular_bg_tiles_ptr pkm_bg_tiles;
-    bn::regular_bg_ptr pkm_village;
+    //bn::regular_bg_ptr pkm_village;
+    bn::regular_bg_ptr pkm_village1;
+    bn::regular_bg_ptr pkm_village2;
     int coliderMap[123][2] = { {14, 7} ,{15, 7},{16, 7},{17, 7},{18, 7},{19, 7},{20, 7},{21, 7},
         {14, 8},{21, 8},{12, 9},{13, 9},{14, 9},{21, 9},{22, 9},{23, 9},{12, 10},{23, 10},{12, 11},{23, 11},
         {24, 11},{25, 11},{12, 12},{13, 12},{14, 12},{15, 12},{16, 12},{25, 12},{16, 13},{25, 13},{16, 14},

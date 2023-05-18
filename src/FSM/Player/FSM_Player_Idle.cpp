@@ -25,8 +25,9 @@ FSM_Player_Idle::FSM_Player_Idle(Player& P, Player::Direction D)
 
 void FSM_Player_Idle::Update(FSM_Player_State_ptr& current_state){
     auto new_direction = direction_pressed();
-
-    if(new_direction){
+    
+    if (new_direction) {
+        //player.last_direction = player.current_direction;
         SwapToState(current_state, new FSM_Player_Walk(player, new_direction.value()));
         return;
     }

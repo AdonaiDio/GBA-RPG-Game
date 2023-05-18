@@ -134,6 +134,27 @@ void Player::TranslateSprite(bn::camera_ptr& camera){
                 break;
             }
             /////////////////////
+            //////////////////
+            switch (last_direction) {
+            case Direction::up:
+                BN_LOG("lastDir : up");
+
+                break;
+            case Direction::down:
+                BN_LOG("lastDir : down");
+
+                break;
+            case Direction::left:
+                BN_LOG("lastDir : left");
+
+                break;
+            default:
+            case Direction::right:
+                BN_LOG("lastDir : right");
+
+                break;
+            }
+            /////////////////////
         }
     }
     collider.set_position(int_spritePos_x, int_spritePos_y + (Scene::grid_cell_height / 2));

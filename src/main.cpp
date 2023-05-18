@@ -45,6 +45,7 @@ int main()
 
         text_generator.generate(0, -40, ("x: " + bn::to_string<32>(Scene_ptr->player->x) + 
                                         " y: " + bn::to_string<32>(Scene_ptr->player->y)), text_sprites);
+        text_generator.set_bg_priority(2);
 
         if (bn::keypad::start_pressed()) {
             Scene_ptr->Reset();

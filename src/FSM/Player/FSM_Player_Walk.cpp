@@ -17,7 +17,7 @@ FSM_Player_Walk::FSM_Player_Walk(Player& P, Player::Direction D)
 
     ////////////
     
-    if(player.onCollision){  // use a condition here //////////////////////////////////////////////////////
+    if(player.onCollision){ // onCollision // use a condition here //////////////////////////////////////////////////////
         // Oh no, we can't actually use this state right now!
         is_valid = false;
         return;
@@ -26,27 +26,33 @@ FSM_Player_Walk::FSM_Player_Walk(Player& P, Player::Direction D)
         // Actually finish entering this state
         switch (direction) {
         case Player::Direction::up:
-            player.player_sprite.set_horizontal_flip(false);
-            player.nextPos_y -= 1;
+            player.player_sprite.set_horizontal_flip(false); //<<< Relativo a animação/sprite
+            //if (!player.onCollision && bn::keypad::up_held())
+                player.nextPos_y -= 1; //<<< Relativo ao movimento do jogador
             // BN_LOG(__FILE__, " ", __func__, " ", __LINE__, " ", "up");
 
             break;
         case Player::Direction::down:
             player.player_sprite.set_horizontal_flip(false);
-            player.nextPos_y += 1;
+            //if (!player.onCollision && bn::keypad::down_held())
+                player.nextPos_y += 1;
             // BN_LOG(__FILE__, " ", __func__, " ", __LINE__, " ", "down");
 
             break;
         case Player::Direction::left:
             player.player_sprite.set_horizontal_flip(false);
-            player.nextPos_x -= 1;
+            //if (!player.onCollision && bn::keypad::left_held())
+                player.nextPos_x -= 1;
+            
             // BN_LOG(__FILE__, " ", __func__, " ", __LINE__, " ", "left");
 
             break;
         default:
         case Player::Direction::right:
             player.player_sprite.set_horizontal_flip(true);
-            player.nextPos_x += 1;
+            //if (!player.onCollision && bn::keypad::right_held())
+                player.nextPos_x += 1;
+            
             // BN_LOG(__FILE__, " ", __func__, " ", __LINE__, " ", "right");
 
             break;
