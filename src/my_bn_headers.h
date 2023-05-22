@@ -19,6 +19,8 @@
 #include "bn_string.h"
 #include "bn_string_view.h"
 
+#include "bn_unique_ptr.h"
+
 #include <bn_camera_ptr.h>
 
 #include <bn_sprite_ptr.h>

@@ -25,7 +25,7 @@ int main()
 {
     bn::core::init();
 
-    std::unique_ptr<Scene> Scene_ptr(new Scene());
+    bn::unique_ptr<Scene> Scene_ptr(new Scene());
 
     bn::music_items::speed_eaters_2.play(0.2);
 
